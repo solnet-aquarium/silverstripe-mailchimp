@@ -21,8 +21,8 @@
     "require": {
         "silverstripe/framework": "~3.1.0",
         "silverstripe/cms": "~3.1.0",
-        "sheadawson/silverstripe-zenvalidator": "^0.4.4",
-        "mailchimp/mailchimp": "^2.0"
+        "sheadawson/silverstripe-zenvalidator": "dev-master",
+        "mailchimp/mailchimp": "dev-master"
     },
     "autoload": {
         "psr-4": {
