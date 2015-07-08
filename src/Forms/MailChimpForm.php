@@ -1,12 +1,19 @@
 <?php namespace StudioBonito\SilverStripe\MailChimp\Forms;
 
+// Silverstripe
+use \SiteConfig;
 use \EmailField;
+use \TextField;
 use \FormAction;
 use \FieldList;
+
+// ZenValidator
 use \ZenValidator;
 use \Constraint_type;
+
+// Mailchimp
 use \Mailchimp;
-use \SiteConfig;
+use \Mailchimp_Error;
 
 /**
  * MailChimpForm.
@@ -16,6 +23,9 @@ use \SiteConfig;
  */
 class MailChimpForm extends \Form
 {
+    private $actionName = 'processMailChimpForm';
+    private $useNameFields = false;
+
     /**
      * Create a new form, with the given fields and action buttons.
      * Fallback to default fields and action buttons if none are supplied.
@@ -55,9 +65,20 @@ class MailChimpForm extends \Form
     {
         $fields = FieldList::create();
 
-        $email = \EmailField::create('Email', _t('MailChimp.EMAIL', 'Email:'));
+        $fields->push(
+            \EmailField::create('Email', _t('MailChimp.EMAIL', 'Email:'))
+        );
 
-        $fields->push($email);
+        if($this->useNameFields)
+        {
+            $fields->push(
+                \TextField::create('FNAME', _t('MailChimp.FNAME', 'First Name:'))
+            );
+
+            $fields->push(
+                \TextField::create('LNAME', _t('MailChimp.LNAME', 'Last Name:'))
+            );
+        }
 
         return $fields;
     }
@@ -71,7 +92,7 @@ class MailChimpForm extends \Form
     {
         $actions = FieldList::create();
 
-        $action = \FormAction::create('processMailChimpForm', _t('MailChimp.SUBMIT', 'Sign Up'));
+        $action = \FormAction::create($this->actionName, _t('MailChimp.SUBMIT', 'Sign Up'));
 
         $actions->push($action);
 
@@ -106,17 +127,29 @@ class MailChimpForm extends \Form
         );
 
         try {
+            $merge_vars = [];
+            foreach($data as $key => $value)
+            {
+                if($key != 'Email' AND $key != 'SecurityID' AND $key != 'action_'.$this->actionName)
+                {
+                    $merge_vars[$key] = $value;
+                }
+            }
+
+            $double_optin = FALSE;
             $mailChimp->lists->subscribe(
                 $siteConfig->MailListID,
                 array(
                     'email' => $data['Email']
-                )
+                ),
+                $merge_vars,
+                $double_optin
             );
             $form->sessionMessage(
                 _t('MailChimp.SUCCESSMESSAGE', 'Thank you for subscribing'),
                 'good'
             );
-        } catch (Mailchimp_Error $e) {
+        } catch (\Mailchimp_Error $e) {
             if ($e->getMessage()) {
                 $form->sessionMessage(
                     $e->getMessage(),
@@ -130,5 +163,11 @@ class MailChimpForm extends \Form
             }
         }
         $this->controller->redirectBack();
+    }
+
+    public function setUseNameFields($bool = false)
+    {
+        $this->useNameFields = $bool;
+        return $this;
     }
 }
