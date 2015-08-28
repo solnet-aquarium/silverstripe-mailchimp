@@ -197,7 +197,7 @@ class MailChimpForm extends \Form
 
             // Catch any errors that are shown and process them
         } catch (\Mailchimp_Error $e) {
-            // Check t see if there is a message from the error
+            // Check to see if there is a message from the error
             if ($e->getMessage()) {
                 // Add an error message to the form with the messsage from the caught error
                 $form->sessionMessage(
