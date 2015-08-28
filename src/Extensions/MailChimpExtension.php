@@ -31,7 +31,7 @@ class MailChimpExtension extends \DataExtension
     {
         // Add fields to the CMS in the Services tab
         $fields->addFieldsToTab(
-            'Root.Services',
+            'Root.Services.MailChimp',
             [
                 \TextField::create('MailChimpApiID', _t('MailChimp.APIID', 'MailChimp API ID')),
                 \TextField::create('MailListID', _t('MailChimp.LISTID', 'MailChimp List ID')),

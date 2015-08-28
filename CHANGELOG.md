@@ -8,6 +8,7 @@ All Notable changes to `studiobonito/silverstripe-mailchimp` will be documented 
 - Added PHPDoc comments for `MailChimpExtension`.
 - Added PHPDoc comments for `MailChimpForm`.
 - Added comments to `MailChimpForm.ss`
+- Moved MailChimp settings into `Root.Services.MailChimp` 
 
 ### Fixed
 - Updated `LICENSE.md` to latest BSD-2.
