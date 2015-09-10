@@ -22,11 +22,22 @@
         "silverstripe/framework": "~3.1.0",
         "silverstripe/cms": "~3.1.0",
         "sheadawson/silverstripe-zenvalidator": "~0.4.4",
-        "mailchimp/mailchimp": "dev-master"
+        "mailchimp/mailchimp": "~2.0.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*",
+        "mockery/mockery": "0.9.*",
+        "symfony/class-loader": "~2.3",
+        "scrutinizer/ocular": "~1.1"
     },
     "autoload": {
         "psr-4": {
           "StudioBonito\\SilverStripe\\MailChimp\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "StudioBonito\\SilverStripe\\GoogleAnalytics\\Test\\": "tests"
         }
     }
 }

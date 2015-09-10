@@ -1,11 +1,11 @@
 <?php namespace StudioBonito\SilverStripe\MailChimp\Extensions;
 
-use TextField;
+use \TextField;
 
 /**
- * MailChimpExtension.
+ * The data extension for adding MailChimp settings.
  *
- * @author       Tom Densham <tom.densham@studiobonito.co.uk>
+ * @author       Steve Heyes <steve.heyes@studiobonito.co.uk>
  * @copyright    Studio Bonito Ltd.
  */
 class MailChimpExtension extends \DataExtension
@@ -15,25 +15,27 @@ class MailChimpExtension extends \DataExtension
      * List of database fields. {@link DataObject::$db}
      *
      * @var array
+     * @config
      */
-    private static $db = array(
+    private static $db = [
         'MailChimpApiID' => 'Varchar',
-        'MailListID' => 'Varchar',
-    );
+        'MailListID'     => 'Varchar',
+    ];
 
     /**
      * Returns a FieldList with which to create the main editing form. {@link DataObject::getCMSFields()}
      *
-     * @return FieldList The fields to be displayed in the CMS.
+     * @param \FieldList $fields The field list that is being extended
      */
-    public function updateCMSFields(FieldList $fields)
+    public function updateCMSFields(\FieldList $fields)
     {
+        // Add fields to the CMS in the Services tab
         $fields->addFieldsToTab(
-            'Root.MailChimp',
-            array(
-                TextField::create('MailChimpApiID', _t('MailChimp.APIID', 'MailChimp API ID')),
-                TextField::create('MailListID', _t('MailChimp.LISTID', 'MailChimp List ID'))
-            )
+            'Root.Services.MailChimp',
+            [
+                \TextField::create('MailChimpApiID', _t('MailChimp.APIID', 'MailChimp API ID')),
+                \TextField::create('MailListID', _t('MailChimp.LISTID', 'MailChimp List ID')),
+            ]
         );
     }
 }
