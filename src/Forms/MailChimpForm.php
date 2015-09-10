@@ -65,7 +65,7 @@ class MailChimpForm extends \Form
         }
 
         // Get default Validator
-        if (!$validator || !$validator instanceof Validator) {
+        if (!$validator || !is_subclass_of($validator, 'Validator')) {
             $validator = $this->getDefaultValidator();
         }
 
@@ -87,19 +87,6 @@ class MailChimpForm extends \Form
         $fields->push(
             \EmailField::create('Email', _t('MailChimp.EMAIL', 'Email:'))
         );
-
-        // Check to see if we are using the name fields
-        if ($this->useNameFields) {
-            // Add text field for the first name
-            $fields->push(
-                \TextField::create('FNAME', _t('MailChimp.FNAME', 'First Name:'))
-            );
-
-            // Add text field for the last name
-            $fields->push(
-                \TextField::create('LNAME', _t('MailChimp.LNAME', 'Last Name:'))
-            );
-        }
 
         // Return the field list
         return $fields;
@@ -133,7 +120,7 @@ class MailChimpForm extends \Form
     public function getDefaultValidator()
     {
         // Set up ZenValidator
-        $validator = \ZenValidator::create();
+        $validator = new ZenValidator();
 
         // Add requirement for the email field to be filled in
         $validator->addRequiredFields(
@@ -228,7 +215,41 @@ class MailChimpForm extends \Form
         // Set the useNameFields variable
         $this->useNameFields = $bool;
 
+        // Get fields
+        $fields = $this->Fields();
+
+        // Check $bool
+        if ($bool) {
+            // If it's true, add First Name and Last Name fields
+            // Add text field for the first name
+            $fields->push(
+                \TextField::create('FNAME', _t('MailChimp.FNAME', 'First Name:'))
+            );
+
+            // Add text field for the last name
+            $fields->push(
+                \TextField::create('LNAME', _t('MailChimp.LNAME', 'Last Name:'))
+            );
+        } else {
+            // If it's false, remove First Name and Last Name fields
+            $fields->remove('FNAME');
+            $fields->remove('LNAME');
+        }
+
+        // Set update fields
+        $this->setFields($fields);
+
         // Return $this to enable chaining
         return $this;
+    }
+
+    /**
+     * Getter for useNameFields
+     *
+     * @return bool
+     */
+    public function getUseNameFields()
+    {
+        return $this->useNameFields;
     }
 }
