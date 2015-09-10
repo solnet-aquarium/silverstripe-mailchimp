@@ -236,6 +236,13 @@ class MailChimpForm extends \Form
             $fields->remove('LNAME');
         }
 
+        // Set field order
+        $fields->changeFieldOrder([
+            'FNAME',
+            'LNAME',
+            'Email'
+        ]);
+
         // Set update fields
         $this->setFields($fields);
 

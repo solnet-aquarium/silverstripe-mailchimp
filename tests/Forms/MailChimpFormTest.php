@@ -70,4 +70,29 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
         // Check if Last Name field is there
         $this->assertEquals('LNAME', $lname->getName());
     }
+
+    public function testAddingUseNameFieldsOrder()
+    {
+        // Mock Controller
+        $controller = new Controller();
+
+        // TODO: Figure out and fix why ZenValidator isn't working
+        // Mock up basic validator to stop ZenValidator from running
+        $mockValidator = new RequiredFields();
+
+        // Set up the Mailchimp Form
+        $form = MailChimpForm::create($controller, 'TestForm', null, null, $mockValidator);
+
+        // Set UserNameFields to true
+        $form->setUseNameFields(true);
+
+        // Get fields
+        $fields = $form->Fields();
+
+        // Test that the three items are the expected results: FNAME, LNAME, Email
+        $this->assertEquals('0', $fields->fieldPosition('FNAME'));
+        $this->assertEquals('1', $fields->fieldPosition('LNAME'));
+        $this->assertEquals('2', $fields->fieldPosition('Email'));
+
+    }
 }
