@@ -216,20 +216,20 @@ class MailChimpForm extends \Form
             $fields->push(
                 \TextField::create('LNAME', _t('MailChimp.LNAME', 'Last Name:'))
             );
+
+            // Set field order
+            $fields->changeFieldOrder(
+                [
+                    'FNAME',
+                    'LNAME',
+                    'Email',
+                ]
+            );
         } else {
             // If it's false, remove First Name and Last Name fields
             $fields->removeByName('FNAME');
             $fields->removeByName('LNAME');
         }
-
-        // Set field order
-        $fields->changeFieldOrder(
-            [
-                'FNAME',
-                'LNAME',
-                'Email',
-            ]
-        );
 
         // Set update fields
         $this->setFields($fields);
