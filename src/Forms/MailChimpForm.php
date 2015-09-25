@@ -218,8 +218,8 @@ class MailChimpForm extends \Form
             );
         } else {
             // If it's false, remove First Name and Last Name fields
-            $fields->remove('FNAME');
-            $fields->remove('LNAME');
+            $fields->removeByName('FNAME');
+            $fields->removeByName('LNAME');
         }
 
         // Set field order

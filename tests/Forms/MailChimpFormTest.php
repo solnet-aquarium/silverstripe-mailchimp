@@ -175,6 +175,42 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('LNAME', $lname->getName());
     }
 
+    /**
+     * Test for whether setting the variable $useNameFields as false removes the first and last name field
+     */
+    public function testRemovingUseNameFields()
+    {
+        // Mock Controller
+        $controller = new Controller();
+
+        // Set up the Mailchimp Form
+        $form = MailChimpForm::create($controller, 'TestForm', null, null);
+
+        // Add the fields
+        $form->setUseNameFields(true);
+
+        // Remove the fields
+        $form->setUseNameFields(false);
+
+        // Get fields
+        $fields = $form->Fields();
+
+        // Get first name field
+        $fname = $fields->fieldByName('FNAME');
+
+        // Check if First Name field is there
+        $this->assertEquals(null, $fname);
+
+        // Get last name field
+        $lname = $fields->fieldByName('LNAME');
+
+        // Check if Last Name field is there
+        $this->assertEquals(null, $lname);
+    }
+
+    /**
+     * Test for the order of the fields to be correct
+     */
     public function testAddingUseNameFieldsOrder()
     {
         // Mock Controller
