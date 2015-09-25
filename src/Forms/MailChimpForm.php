@@ -7,10 +7,6 @@ use \TextField;
 use \FormAction;
 use \FieldList;
 
-// ZenValidator
-use \ZenValidator;
-use \Constraint_type;
-
 // Mailchimp
 use \Mailchimp;
 use \Mailchimp_Error;
@@ -119,21 +115,10 @@ class MailChimpForm extends \Form
      */
     public function getDefaultValidator()
     {
-        // Set up ZenValidator
-        $validator = new ZenValidator();
-
-        // Add requirement for the email field to be filled in
-        $validator->addRequiredFields(
-            [
-                'Email' => _t('MailChimp.EMAILERROR', 'Please enter your email'),
-            ]
-        );
-
-        // Add constraint that the contents of the EEmail field follows the pattern for an email
-        $validator->setConstraint('Email', Constraint_type::create('email'));
-
-        // Return the Validator
-        return $validator;
+        // Return required field validator for Email
+        return new \RequiredFields(array(
+            'Email'
+        ));
     }
 
     /**
