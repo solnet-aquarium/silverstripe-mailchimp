@@ -15,6 +15,30 @@ use StudioBonito\SilverStripe\MailChimp\Forms\MailChimpForm;
  */
 class MailChimpFormTest extends \PHPUnit_Framework_TestCase
 {
+    protected $mockController;
+    protected $form;
+
+    /**
+     * Sets up controller and form
+     */
+    protected function setUp()
+    {
+        // Mock Controller
+        $this->mockController = new Controller();
+
+        // Mock Form
+        $this->form = MailChimpForm::create($this->mockController, 'TestForm');
+    }
+
+    /**
+     * Tears down controller and form
+     */
+    protected function tearDown()
+    {
+        $this->mockController = null;
+        $this->form = null;
+    }
+
     /**
      * Test that Mailchimp object is created when given a MailChimpAPIID
      */
@@ -40,14 +64,8 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
             "LNAME" => "mcTesterson"
         ];
 
-        // Mock Controller
-        $controller = new Controller();
-
-        // Set up the Mailchimp Form
-        $form = MailChimpForm::create($controller, 'TestForm');
-
         // Create mergeVar array
-        $mergeVars = $form->createMergeVarArray($data);
+        $mergeVars = $this->form->createMergeVarArray($data);
 
         // Assert that $form->useNameFields is true
         $this->assertEquals($expected, $mergeVars);
@@ -58,15 +76,9 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
      */
     public function testDoubleOptinSetter()
     {
-        // Mock Controller
-        $controller = new Controller();
+        $this->form->setDoubleOptin(true);
 
-        // Set up the Mailchimp Form
-        $form = MailChimpForm::create($controller, 'TestForm');
-
-        $form->setDoubleOptin(true);
-
-        $doubleOptin = $form->getDoubleOptin();
+        $doubleOptin = $this->form->getDoubleOptin();
 
         // Assert that $doubleOptin is false as that is the default
         $this->assertEquals(true, $doubleOptin);
@@ -77,15 +89,9 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
  */
     public function testDoubleOptinSetterWithText()
     {
-        // Mock Controller
-        $controller = new Controller();
+        $this->form->setDoubleOptin("This sould make double optin false");
 
-        // Set up the Mailchimp Form
-        $form = MailChimpForm::create($controller, 'TestForm');
-
-        $form->setDoubleOptin("This sould make double optin false");
-
-        $doubleOptin = $form->getDoubleOptin();
+        $doubleOptin = $this->form->getDoubleOptin();
 
         // Assert that $doubleOptin is false as that is the default
         $this->assertEquals(true, $doubleOptin);
@@ -96,15 +102,9 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
      */
     public function testDoubleOptinSetterWithFalse()
     {
-        // Mock Controller
-        $controller = new Controller();
+        $this->form->setDoubleOptin(false);
 
-        // Set up the Mailchimp Form
-        $form = MailChimpForm::create($controller, 'TestForm');
-
-        $form->setDoubleOptin(false);
-
-        $doubleOptin = $form->getDoubleOptin();
+        $doubleOptin = $this->form->getDoubleOptin();
 
         // Assert that $doubleOptin is false as that is the default
         $this->assertEquals(false, $doubleOptin);
@@ -115,13 +115,7 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
      */
     public function testDoubleOptinGetter()
     {
-        // Mock Controller
-        $controller = new Controller();
-
-        // Set up the Mailchimp Form
-        $form = MailChimpForm::create($controller, 'TestForm');
-
-        $doubleOptin = $form->getDoubleOptin();
+        $doubleOptin = $this->form->getDoubleOptin();
 
         // Assert that $doubleOptin is false as that is the default
         $this->assertEquals(false, $doubleOptin);
@@ -132,17 +126,11 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetUseNameFields()
     {
-        // Mock Controller
-        $controller = new Controller();
-
-        // Set up the Mailchimp Form
-        $form = MailChimpForm::create($controller, 'TestForm');
-
         // Set UserNameFields to true
-        $form->setUseNameFields(true);
+        $this->form->setUseNameFields(true);
 
-        // Assert that $form->useNameFields is true
-        $this->assertEquals(true, $form->useNameFields);
+        // Assert that $this->form->useNameFields is true
+        $this->assertEquals(true, $this->form->useNameFields);
     }
 
     /**
@@ -150,17 +138,11 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingUseNameFields()
     {
-        // Mock Controller
-        $controller = new Controller();
-
-        // Set up the Mailchimp Form
-        $form = MailChimpForm::create($controller, 'TestForm', null, null);
-
         // Set UserNameFields to true
-        $form->setUseNameFields(true);
+        $this->form->setUseNameFields(true);
 
         // Get fields
-        $fields = $form->Fields();
+        $fields = $this->form->Fields();
 
         // Get first name field
         $fname = $fields->fieldByName('FNAME');
@@ -180,20 +162,14 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingUseNameFields()
     {
-        // Mock Controller
-        $controller = new Controller();
-
-        // Set up the Mailchimp Form
-        $form = MailChimpForm::create($controller, 'TestForm', null, null);
-
         // Add the fields
-        $form->setUseNameFields(true);
+        $this->form->setUseNameFields(true);
 
         // Remove the fields
-        $form->setUseNameFields(false);
+        $this->form->setUseNameFields(false);
 
         // Get fields
-        $fields = $form->Fields();
+        $fields = $this->form->Fields();
 
         // Get first name field
         $fname = $fields->fieldByName('FNAME');
@@ -213,17 +189,11 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingUseNameFieldsOrder()
     {
-        // Mock Controller
-        $controller = new Controller();
-
-        // Set up the Mailchimp Form
-        $form = MailChimpForm::create($controller, 'TestForm');
-
         // Set UserNameFields to true
-        $form->setUseNameFields(true);
+        $this->form->setUseNameFields(true);
 
         // Get fields
-        $fields = $form->Fields();
+        $fields = $this->form->Fields();
 
         // Test that the three items are the expected results: FNAME, LNAME, Email
         $this->assertEquals('0', $fields->fieldPosition('FNAME'));
