@@ -34,6 +34,13 @@ class MailChimpForm extends \Form
     private $useNameFields = false;
 
     /**
+     * Variable used to set double optin in for Mailchimp
+     *
+     * @var boolean
+     */
+    private $doubleOptin = false;
+
+    /**
      * Create a new form, with the given fields and action buttons.
      * Fallback to default fields and action buttons if none are supplied.
      *
@@ -116,9 +123,11 @@ class MailChimpForm extends \Form
     public function getDefaultValidator()
     {
         // Return required field validator for Email
-        return new \RequiredFields(array(
-            'Email'
-        ));
+        return new \RequiredFields(
+            [
+                'Email',
+            ]
+        );
     }
 
     /**
@@ -139,17 +148,8 @@ class MailChimpForm extends \Form
 
         // Try adding the POST'ed data to the address book list
         try {
-            // Create array of data that is going to be sent to Mailchimp
-            $mergeVars = [];
-            foreach ($data as $key => $value) {
-                // Do not add the Email, SecurityID and the button action
-                if ($key != 'Email' and $key != 'SecurityID' and $key != 'action_' . $this->actionName) {
-                    $mergeVars[$key] = $value;
-                }
-            }
-
-            // Set double optin option to false
-            $doubleOptin = false;
+            // Strip out merge vats
+            $mergeVars = $this->createMergeVarArray($data);
 
             // Add the email address and related data to the mailing list
             $mailChimp->lists->subscribe(
@@ -158,7 +158,7 @@ class MailChimpForm extends \Form
                     'email' => $data['Email'],
                 ],
                 $mergeVars,
-                $doubleOptin
+                $this->doubleOptin
             );
 
             // Add a success message
@@ -193,6 +193,7 @@ class MailChimpForm extends \Form
      * Sets the value for the useNameField variable
      *
      * @param bool|false $bool
+     *
      * @return $this
      */
     public function setUseNameFields($bool = false)
@@ -215,18 +216,20 @@ class MailChimpForm extends \Form
             $fields->push(
                 \TextField::create('LNAME', _t('MailChimp.LNAME', 'Last Name:'))
             );
+
+            // Set field order
+            $fields->changeFieldOrder(
+                [
+                    'FNAME',
+                    'LNAME',
+                    'Email',
+                ]
+            );
         } else {
             // If it's false, remove First Name and Last Name fields
-            $fields->remove('FNAME');
-            $fields->remove('LNAME');
+            $fields->removeByName('FNAME');
+            $fields->removeByName('LNAME');
         }
-
-        // Set field order
-        $fields->changeFieldOrder([
-            'FNAME',
-            'LNAME',
-            'Email'
-        ]);
 
         // Set update fields
         $this->setFields($fields);
@@ -243,5 +246,54 @@ class MailChimpForm extends \Form
     public function getUseNameFields()
     {
         return $this->useNameFields;
+    }
+
+    /**
+     * Creates an array of fields to be added into mergeVars for MailChimp
+     *
+     * @param $data array of data
+     *
+     * @return array
+     */
+    public function createMergeVarArray($data)
+    {
+        // Black list
+        $blackList = [
+            "url",
+            "Email",
+            "SecurityID",
+            "action_processMailChimpForm",
+        ];
+
+        // Create array of data that is going to be sent to Mailchimp
+        $mergeVars = [];
+        foreach ($data as $key => $value) {
+            // Check is key is in the black list
+            if (!in_array($key, $blackList)) {
+                $mergeVars[$key] = $value;
+            }
+        }
+
+        return $mergeVars;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getDoubleOptin()
+    {
+        return $this->doubleOptin;
+    }
+
+    /**
+     * @param boolean $doubleOptin
+     */
+    public function setDoubleOptin($doubleOptin)
+    {
+        if ($doubleOptin == true) {
+            $this->doubleOptin = true;
+            return;
+        }
+        $this->doubleOptin = false;
     }
 }
