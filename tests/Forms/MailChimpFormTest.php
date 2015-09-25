@@ -73,6 +73,44 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+ * Test that doubleOptin setter with text
+ */
+    public function testDoubleOptinSetterWithText()
+    {
+        // Mock Controller
+        $controller = new Controller();
+
+        // Set up the Mailchimp Form
+        $form = MailChimpForm::create($controller, 'TestForm');
+
+        $form->setDoubleOptin("This sould make double optin false");
+
+        $doubleOptin = $form->getDoubleOptin();
+
+        // Assert that $doubleOptin is false as that is the default
+        $this->assertEquals(true, $doubleOptin);
+    }
+
+    /**
+     * Test that doubleOptin setter with false
+     */
+    public function testDoubleOptinSetterWithFalse()
+    {
+        // Mock Controller
+        $controller = new Controller();
+
+        // Set up the Mailchimp Form
+        $form = MailChimpForm::create($controller, 'TestForm');
+
+        $form->setDoubleOptin(false);
+
+        $doubleOptin = $form->getDoubleOptin();
+
+        // Assert that $doubleOptin is false as that is the default
+        $this->assertEquals(false, $doubleOptin);
+    }
+
+    /**
      * Test that doubleOptin getter
      */
     public function testDoubleOptinGetter()
@@ -88,10 +126,6 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
         // Assert that $doubleOptin is false as that is the default
         $this->assertEquals(false, $doubleOptin);
     }
-
-    /**
-     *
-     */
 
     /**
      * Test for setting the variable $useNameFields

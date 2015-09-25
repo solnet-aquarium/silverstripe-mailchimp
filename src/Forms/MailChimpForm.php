@@ -151,9 +151,6 @@ class MailChimpForm extends \Form
             // Strip out merge vats
             $mergeVars = $this->createMergeVarArray($data);
 
-            // Set double optin option to false
-            $doubleOptin = false;
-
             // Add the email address and related data to the mailing list
             $mailChimp->lists->subscribe(
                 $siteConfig->MailListID,
@@ -161,7 +158,7 @@ class MailChimpForm extends \Form
                     'email' => $data['Email'],
                 ],
                 $mergeVars,
-                $doubleOptin
+                $this->doubleOptin
             );
 
             // Add a success message
