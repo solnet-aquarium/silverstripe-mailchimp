@@ -23,12 +23,8 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
         // Mock Controller
         $controller = new Controller();
 
-        // TODO: Figure out and fix why ZenValidator isn't working
-        // Mock up basic validator to stop ZenValidator from running
-        $mockValidator = new RequiredFields();
-
         // Set up the Mailchimp Form
-        $form = MailChimpForm::create($controller, 'TestForm', null, null, $mockValidator);
+        $form = MailChimpForm::create($controller, 'TestForm');
 
         // Set UserNameFields to true
         $form->setUseNameFields(true);
@@ -45,12 +41,8 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
         // Mock Controller
         $controller = new Controller();
 
-        // TODO: Figure out and fix why ZenValidator isn't working
-        // Mock up basic validator to stop ZenValidator from running
-        $mockValidator = new RequiredFields();
-
         // Set up the Mailchimp Form
-        $form = MailChimpForm::create($controller, 'TestForm', null, null, $mockValidator);
+        $form = MailChimpForm::create($controller, 'TestForm', null, null);
 
         // Set UserNameFields to true
         $form->setUseNameFields(true);
@@ -76,12 +68,8 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
         // Mock Controller
         $controller = new Controller();
 
-        // TODO: Figure out and fix why ZenValidator isn't working
-        // Mock up basic validator to stop ZenValidator from running
-        $mockValidator = new RequiredFields();
-
         // Set up the Mailchimp Form
-        $form = MailChimpForm::create($controller, 'TestForm', null, null, $mockValidator);
+        $form = MailChimpForm::create($controller, 'TestForm');
 
         // Set UserNameFields to true
         $form->setUseNameFields(true);

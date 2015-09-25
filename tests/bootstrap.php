@@ -3,6 +3,7 @@ use Symfony\Component\ClassLoader\ClassMapGenerator;
 
 define('BASE_PATH', realpath(dirname(__DIR__)));
 define('FRAMEWORK_PATH', BASE_PATH . '/framework');
+define('THIRDPARTY_DIR', FRAMEWORK_PATH . '/thirdparty');
 
 if (!file_exists(BASE_PATH . '/vendor/autoload.php')) {
     echo 'You must first install the vendors using composer.' . PHP_EOL;
