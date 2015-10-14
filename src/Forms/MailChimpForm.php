@@ -123,7 +123,6 @@ class MailChimpForm extends Form
     {
         // Return required field validator for Email
         return new RequiredFields(array('Email'));
-
     }
 
     /**
@@ -214,11 +213,11 @@ class MailChimpForm extends Form
 
             // Set field order
             $fields->changeFieldOrder(
-                [
+                array(
                     'FNAME',
                     'LNAME',
                     'Email',
-                ]
+                )
             );
         } else {
             // If it's false, remove First Name and Last Name fields
@@ -253,15 +252,15 @@ class MailChimpForm extends Form
     public function createMergeVarArray($data)
     {
         // Black list
-        $blackList = [
+        $blackList = array(
             "url",
             "Email",
             "SecurityID",
             "action_processMailChimpForm",
-        ];
+        );
 
         // Create array of data that is going to be sent to Mailchimp
-        $mergeVars = [];
+        $mergeVars = array();
         foreach ($data as $key => $value) {
             // Check is key is in the black list
             if (!in_array($key, $blackList)) {
