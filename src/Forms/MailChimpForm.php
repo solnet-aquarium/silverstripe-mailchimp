@@ -1,15 +1,14 @@
 <?php namespace StudioBonito\SilverStripe\MailChimp\Forms;
 
-// Silverstripe
-use \SiteConfig;
 use \EmailField;
-use \TextField;
-use \FormAction;
 use \FieldList;
-
-// Mailchimp
+use \Form;
+use \FormAction;
 use \Mailchimp;
 use \Mailchimp_Error;
+use \RequiredFields;
+use \SiteConfig;
+use \TextField;
 
 /**
  * The form used to collect and process data to add to a MailChimp mailing list.
@@ -17,7 +16,7 @@ use \Mailchimp_Error;
  * @author       Steve Heyes <steve.heyes@studiobonito.co.uk>
  * @copyright    Studio Bonito Ltd.
  */
-class MailChimpForm extends \Form
+class MailChimpForm extends Form
 {
     /**
      * The name of the action used on the submit button
@@ -84,11 +83,11 @@ class MailChimpForm extends \Form
     public function getDefaultFields()
     {
         // Create the field list
-        $fields = \FieldList::create();
+        $fields = FieldList::create();
 
         // Add email field
         $fields->push(
-            \EmailField::create('Email', _t('MailChimp.EMAIL', 'Email:'))
+            EmailField::create('Email', _t('MailChimp.EMAIL', 'Email:'))
         );
 
         // Return the field list
@@ -103,10 +102,10 @@ class MailChimpForm extends \Form
     public function getDefaultActions()
     {
         // Creat Field list
-        $actions = \FieldList::create();
+        $actions = FieldList::create();
 
         // Add submit button
-        $action = \FormAction::create($this->actionName, _t('MailChimp.SUBMIT', 'Sign Up'));
+        $action = FormAction::create($this->actionName, _t('MailChimp.SUBMIT', 'Sign Up'));
 
         // Add button the field list
         $actions->push($action);
@@ -131,15 +130,15 @@ class MailChimpForm extends \Form
      * Process the form and take the data and attempt to add it the mailing list
      *
      * @param array $data
-     * @param \Form $form
+     * @param Form  $form
      */
-    public function processMailChimpForm(array $data, \Form $form)
+    public function processMailChimpForm(array $data, Form $form)
     {
         // Get current site config
-        $siteConfig = \SiteConfig::current_site_config();
+        $siteConfig = SiteConfig::current_site_config();
 
         // Set up Mailchimp
-        $mailChimp = new \Mailchimp(
+        $mailChimp = new Mailchimp(
             $siteConfig->MailChimpApiID
         );
 
@@ -151,9 +150,9 @@ class MailChimpForm extends \Form
             // Add the email address and related data to the mailing list
             $mailChimp->lists->subscribe(
                 $siteConfig->MailListID,
-                [
+                array(
                     'email' => $data['Email'],
-                ],
+                ),
                 $mergeVars,
                 $this->doubleOptin
             );
@@ -164,7 +163,7 @@ class MailChimpForm extends \Form
                 'good'
             );
             // Catch any errors that are shown and process them
-        } catch (\Mailchimp_Error $e) {
+        } catch (Mailchimp_Error $e) {
             // Check to see if there is a message from the error
             if ($e->getMessage()) {
                 // Add an error message to the form with the messsage from the caught error
@@ -205,12 +204,12 @@ class MailChimpForm extends \Form
             // If it's true, add First Name and Last Name fields
             // Add text field for the first name
             $fields->push(
-                \TextField::create('FNAME', _t('MailChimp.FNAME', 'First Name:'))
+                TextField::create('FNAME', _t('MailChimp.FNAME', 'First Name:'))
             );
 
             // Add text field for the last name
             $fields->push(
-                \TextField::create('LNAME', _t('MailChimp.LNAME', 'Last Name:'))
+                TextField::create('LNAME', _t('MailChimp.LNAME', 'Last Name:'))
             );
 
             // Set field order
