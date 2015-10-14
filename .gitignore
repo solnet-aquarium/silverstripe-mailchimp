@@ -1,6 +1,5 @@
-.idea
 build
 cms
 framework
 vendor
-zenvalidator
+composer.lock
