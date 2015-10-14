@@ -123,11 +123,8 @@ class MailChimpForm extends \Form
     public function getDefaultValidator()
     {
         // Return required field validator for Email
-        return new \RequiredFields(
-            [
-                'Email',
-            ]
-        );
+        return new RequiredFields(array('Email'));
+
     }
 
     /**
@@ -166,7 +163,6 @@ class MailChimpForm extends \Form
                 _t('MailChimp.SUCCESSMESSAGE', 'Thank you for subscribing'),
                 'good'
             );
-
             // Catch any errors that are shown and process them
         } catch (\Mailchimp_Error $e) {
             // Check to see if there is a message from the error
@@ -292,6 +288,7 @@ class MailChimpForm extends \Form
     {
         if ($doubleOptin == true) {
             $this->doubleOptin = true;
+
             return;
         }
         $this->doubleOptin = false;
