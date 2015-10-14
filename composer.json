@@ -34,12 +34,12 @@
             "StudioBonito\\SilverStripe\\MailChimp\\": "src/"
         }
     },
-    "suggest": {
-        "sheadawson/silverstripe-zenvalidator": "Allows more advanced validating of form fields"
-    },
     "autoload-dev": {
         "psr-4": {
             "StudioBonito\\SilverStripe\\GoogleAnalytics\\Test\\": "tests"
         }
+    },
+    "suggest": {
+        "sheadawson/silverstripe-zenvalidator": "Allows more advanced validating of form fields"
     }
 }
