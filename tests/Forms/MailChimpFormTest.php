@@ -49,20 +49,20 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     public function testMergeVarArrayOutput()
     {
         // Mock Data
-        $data = [
+        $data = array(
             "url" => "/news/MailChimpForm",
             "FNAME" => "Test",
             "LNAME" => "mcTesterson",
             "Email" => "test@studiobonito.co.uk",
             "SecurityID" => "f8b12d9602d470a205ef1b2ca94ac7d7dbd91a68",
             "action_processMailChimpForm" => "Sign Up"
-        ];
+        );
 
         // Expected results
-        $expected = [
+        $expected = array(
             "FNAME" => "Test",
             "LNAME" => "mcTesterson"
-        ];
+        );
 
         // Create mergeVar array
         $mergeVars = $this->form->createMergeVarArray($data);

@@ -17,10 +17,10 @@ class MailChimpExtension extends \DataExtension
      * @var array
      * @config
      */
-    private static $db = [
+    private static $db = array(
         'MailChimpApiID' => 'Varchar',
         'MailListID'     => 'Varchar',
-    ];
+    );
 
     /**
      * Returns a FieldList with which to create the main editing form. {@link DataObject::getCMSFields()}
@@ -32,10 +32,10 @@ class MailChimpExtension extends \DataExtension
         // Add fields to the CMS in the Services tab
         $fields->addFieldsToTab(
             'Root.Services.MailChimp',
-            [
-                \TextField::create('MailChimpApiID', _t('MailChimp.APIID', 'MailChimp API ID')),
-                \TextField::create('MailListID', _t('MailChimp.LISTID', 'MailChimp List ID')),
-            ]
+            array(
+                TextField::create('MailChimpApiID', _t('MailChimp.APIID', 'MailChimp API ID')),
+                TextField::create('MailListID', _t('MailChimp.LISTID', 'MailChimp List ID')),
+            )
         );
     }
 }
