@@ -148,7 +148,10 @@ class MailChimpForm extends \Form
                 ),
                 $mergeVars,
                 'html',
-                $this->doubleOptin
+                $this->doubleOptin,
+                false,
+                true,
+                true
             );
 
             // Add a success message.
