@@ -18,12 +18,6 @@ use \TextField;
  */
 class MailChimpForm extends \Form
 {
-    /**
-     * The name of the action used on the submit button
-     *
-     * @var string
-     */
-    private $actionName = 'processMailChimpForm';
 
     /**
      * Check for if First Name and Last Name fields are included in the form
@@ -251,12 +245,17 @@ class MailChimpForm extends \Form
      */
     public function createMergeVarArray($data)
     {
+        // Get the name of the form
+        $name = $this->getName();
+        // Create action process name
+        $action =  "action_process".$name;
+        
         // Black list
         $blackList = array(
             "url",
             "Email",
             "SecurityID",
-            "action_processMailChimpForm",
+            $action
         );
 
         // Create array of data that is going to be sent to MailChimp
