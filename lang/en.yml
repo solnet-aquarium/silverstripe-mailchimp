@@ -2,3 +2,12 @@ en:
   MailChimp:
     APIID: 'MailChimp API ID'
     LISTID: 'MailChimp List ID'
+    SUBMIT: 'Sign Up'
+    SUCCESSMESSAGE: 'Thank you for subscribing'
+    UNKNOWNERROR: 'An unknown error occured'
+    FNAME: 'First Name:'
+    LNAME: 'Last Name:'
+    EMAIL: 'Email:'
+    SUBMIT: 'Sign Up'
+    SUCCESSMESSAGE: 'Thank you for subscribing'
+    UNKNOWNERROR: 'An unknown error occured'
