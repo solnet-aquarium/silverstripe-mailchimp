@@ -1,0 +1,4 @@
+en:
+  MailChimp:
+    APIID: 'MailChimp API ID'
+    LISTID: 'MailChimp List ID'
