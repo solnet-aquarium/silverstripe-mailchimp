@@ -272,6 +272,8 @@ class MailChimpForm extends \Form
     }
 
     /**
+     * Getter for Double OptIn
+     *
      * @return boolean
      */
     public function getDoubleOptin()
@@ -280,6 +282,8 @@ class MailChimpForm extends \Form
     }
 
     /**
+     * Setter for DoubleOptin
+     *
      * @param boolean $doubleOptin
      */
     public function setDoubleOptin($doubleOptin)
