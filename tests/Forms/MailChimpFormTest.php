@@ -19,7 +19,7 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     protected $form;
 
     /**
-     * Sets up controller and form
+     * Sets up controller and form.
      */
     protected function setUp()
     {
@@ -31,7 +31,7 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tears down controller and form
+     * Tears down controller and form.
      */
     protected function tearDown()
     {
@@ -40,11 +40,7 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that Mailchimp object is created when given a MailChimpAPIID
-     */
-
-    /**
-     * Test that Email, SecurityID and button action are not added to merge var array
+     * Test that Email, SecurityID and button action are not added to merge var array.
      */
     public function testMergeVarArrayOutput()
     {
@@ -73,7 +69,7 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that doubleOptin setter
+     * Test that doubleOptin setter.
      */
     public function testDoubleOptinSetter()
     {
@@ -86,8 +82,8 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
- * Test that doubleOptin setter with text
- */
+    * Test that doubleOptin setter with text.
+    */
     public function testDoubleOptinSetterWithText()
     {
         $this->form->setDoubleOptin("This sould make double optin false");
@@ -99,7 +95,7 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that doubleOptin setter with false
+     * Test that doubleOptin setter with false.
      */
     public function testDoubleOptinSetterWithFalse()
     {
@@ -112,7 +108,7 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that doubleOptin getter
+     * Test that doubleOptin getter.
      */
     public function testDoubleOptinGetter()
     {
@@ -123,7 +119,7 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for setting the variable $useNameFields
+     * Test for setting the variable $useNameFields.
      */
     public function testSetUseNameFields()
     {
@@ -135,7 +131,7 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for whether setting the variable $useNameFields actually adds the name fields to the list
+     * Test for whether setting the variable $useNameFields actually adds the name fields to the list.
      */
     public function testAddingUseNameFields()
     {
@@ -159,7 +155,7 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for whether setting the variable $useNameFields as false removes the first and last name field
+     * Test for whether setting the variable $useNameFields as false removes the first and last name field.
      */
     public function testRemovingUseNameFields()
     {
@@ -186,7 +182,7 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for the order of the fields to be correct
+     * Test for the order of the fields to be correct.
      */
     public function testAddingUseNameFieldsOrder()
     {

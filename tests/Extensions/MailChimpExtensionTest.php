@@ -16,11 +16,15 @@ use StudioBonito\SilverStripe\MailChimp\Extensions\MailChimpExtension;
  */
 class MailChimpExtensionTest extends \PHPUnit_Framework_TestCase
 {
+
+    /*
+     * A test for adding the MailChimp API and List ID fields into the CMS.
+     */
     public function testUpdateCMSFields()
     {
         $extension = new MailChimpExtension();
 
-        $fields = new \FieldList();
+        $fields = new FieldList();
         $fields->push(new TabSet('Root', new Tab('Main')));
 
         $extension->updateCMSFields($fields);
