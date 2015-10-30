@@ -16,7 +16,7 @@ use \TextField;
  * @author       Steve Heyes <steve.heyes@studiobonito.co.uk>
  * @copyright    Studio Bonito Ltd.
  */
-class MailChimpForm extends Form
+class MailChimpForm extends \Form
 {
     /**
      * The name of the action used on the submit button
