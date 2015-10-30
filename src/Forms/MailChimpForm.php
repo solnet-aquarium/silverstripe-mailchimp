@@ -18,12 +18,6 @@ use \TextField;
  */
 class MailChimpForm extends \Form
 {
-    /**
-     * The name of the action used on the submit button
-     *
-     * @var string
-     */
-    private $actionName = 'processMailChimpForm';
 
     /**
      * Check for if First Name and Last Name fields are included in the form
