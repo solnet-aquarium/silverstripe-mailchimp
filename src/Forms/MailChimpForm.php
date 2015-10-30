@@ -125,7 +125,7 @@ class MailChimpForm extends \Form
      * @param array $data
      * @param Form  $form
      */
-    public function processMailChimpForm(array $data, Form $form)
+    public function process(array $data, Form $form)
     {
         // Get current site config.
         $siteConfig = SiteConfig::current_site_config();
@@ -147,6 +147,7 @@ class MailChimpForm extends \Form
                     'email' => $data['Email'],
                 ),
                 $mergeVars,
+                'html',
                 $this->doubleOptin
             );
 
