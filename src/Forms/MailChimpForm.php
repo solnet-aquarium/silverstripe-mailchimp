@@ -22,14 +22,14 @@ class MailChimpForm extends \Form
     /**
      * Check for if First Name and Last Name fields are included in the form.
      *
-     * @var boolean
+     * @var bool
      */
     private $useNameFields = false;
 
     /**
      * Variable used to set double optin in for MailChimp.
      *
-     * @var boolean
+     * @var bool
      */
     private $doubleOptin = false;
 
@@ -274,7 +274,7 @@ class MailChimpForm extends \Form
     /**
      * Getter for Double OptIn.
      *
-     * @return boolean
+     * @return bool
      */
     public function getDoubleOptin()
     {
@@ -284,7 +284,7 @@ class MailChimpForm extends \Form
     /**
      * Setter for DoubleOptin.
      *
-     * @param boolean $doubleOptin
+     * @param bool $doubleOptin
      */
     public function setDoubleOptin($doubleOptin)
     {
