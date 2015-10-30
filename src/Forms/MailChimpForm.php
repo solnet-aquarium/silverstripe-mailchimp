@@ -33,7 +33,7 @@ class MailChimpForm extends \Form
     private $useNameFields = false;
 
     /**
-     * Variable used to set double optin in for Mailchimp
+     * Variable used to set double optin in for MailChimp
      *
      * @var boolean
      */
@@ -136,7 +136,7 @@ class MailChimpForm extends \Form
         // Get current site config
         $siteConfig = SiteConfig::current_site_config();
 
-        // Set up Mailchimp
+        // Set up MailChimp
         $mailChimp = new Mailchimp(
             $siteConfig->MailChimpApiID
         );
@@ -259,7 +259,7 @@ class MailChimpForm extends \Form
             "action_processMailChimpForm",
         );
 
-        // Create array of data that is going to be sent to Mailchimp
+        // Create array of data that is going to be sent to MailChimp
         $mergeVars = array();
         foreach ($data as $key => $value) {
             // Check is key is in the black list
