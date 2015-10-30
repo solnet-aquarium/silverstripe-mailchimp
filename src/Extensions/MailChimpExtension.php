@@ -1,5 +1,6 @@
 <?php namespace StudioBonito\SilverStripe\MailChimp\Extensions;
 
+use \FieldList;
 use \TextField;
 
 /**
@@ -25,9 +26,9 @@ class MailChimpExtension extends \DataExtension
     /**
      * Returns a FieldList with which to create the main editing form. {@link DataObject::getCMSFields()}
      *
-     * @param \FieldList $fields The field list that is being extended
+     * @param FieldList $fields The field list that is being extended
      */
-    public function updateCMSFields(\FieldList $fields)
+    public function updateCMSFields(FieldList $fields)
     {
         // Add fields to the CMS in the Services tab
         $fields->addFieldsToTab(

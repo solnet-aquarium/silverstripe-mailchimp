@@ -7,7 +7,15 @@
     "authors": [
         {
             "name": "Steve Heyes",
-            "email": "steve.heyes@studiobonito.co.uk"
+            "email": "steve.heyes@studiobonito.co.uk",
+            "homepage": "http://www.studiobonito.co.uk",
+            "role": "Developer"
+        },
+        {
+            "name": "Tom Densham",
+            "email": "tom.densham@studiobonito.co.uk",
+            "homepage": "http://www.studiobonito.co.uk",
+            "role": "Developer"
         }
     ],
     "keywords": [

@@ -20,16 +20,16 @@ class MailChimpForm extends \Form
 {
 
     /**
-     * Check for if First Name and Last Name fields are included in the form
+     * Check for if First Name and Last Name fields are included in the form.
      *
-     * @var boolean
+     * @var bool
      */
     private $useNameFields = false;
 
     /**
-     * Variable used to set double optin in for MailChimp
+     * Variable used to set double optin in for MailChimp.
      *
-     * @var boolean
+     * @var bool
      */
     private $doubleOptin = false;
 
@@ -76,15 +76,15 @@ class MailChimpForm extends \Form
      */
     public function getDefaultFields()
     {
-        // Create the field list
+        // Create the field list.
         $fields = FieldList::create();
 
-        // Add email field
+        // Add email field.
         $fields->push(
             EmailField::create('Email', _t('MailChimp.EMAILLABEL', 'Email:'))
         );
 
-        // Return the field list
+        // Return the field list.
         return $fields;
     }
 
@@ -95,16 +95,16 @@ class MailChimpForm extends \Form
      */
     public function getDefaultActions()
     {
-        // Creat Field list
+        // Create Field list.
         $actions = FieldList::create();
 
-        // Add submit button
+        // Add submit button.
         $action = FormAction::create($this->actionName, _t('MailChimp.SUBMIT', 'Sign Up'));
 
-        // Add button the field list
+        // Add button the field list.
         $actions->push($action);
 
-        // Return the field list
+        // Return the field list.
         return $actions;
     }
 
@@ -115,32 +115,32 @@ class MailChimpForm extends \Form
      */
     public function getDefaultValidator()
     {
-        // Return required field validator for Email
+        // Return required field validator for Email.
         return new RequiredFields(array('Email'));
     }
 
     /**
-     * Process the form and take the data and attempt to add it the mailing list
+     * Process the form and take the data and attempt to add it the mailing list.
      *
      * @param array $data
      * @param Form  $form
      */
     public function processMailChimpForm(array $data, Form $form)
     {
-        // Get current site config
+        // Get current site config.
         $siteConfig = SiteConfig::current_site_config();
 
-        // Set up MailChimp
+        // Set up MailChimp.
         $mailChimp = new Mailchimp(
             $siteConfig->MailChimpApiID
         );
 
-        // Try adding the POST'ed data to the address book list
+        // Try adding the POST'ed data to the address book list.
         try {
-            // Strip out merge vats
+            // Strip out merge vars.
             $mergeVars = $this->createMergeVarArray($data);
 
-            // Add the email address and related data to the mailing list
+            // Add the email address and related data to the mailing list.
             $mailChimp->lists->subscribe(
                 $siteConfig->MailListID,
                 array(
@@ -150,22 +150,23 @@ class MailChimpForm extends \Form
                 $this->doubleOptin
             );
 
-            // Add a success message
+            // Add a success message.
             $form->sessionMessage(
                 _t('MailChimp.SUCCESSMESSAGE', 'Thank you for subscribing'),
                 'good'
             );
-            // Catch any errors that are shown and process them
+
+        // Catch any errors that are shown and process them.
         } catch (Mailchimp_Error $e) {
-            // Check to see if there is a message from the error
+            // Check to see if there is a message from the error.
             if ($e->getMessage()) {
-                // Add an error message to the form with the messsage from the caught error
+                // Add an error message to the form with the messsage from the caught error.
                 $form->sessionMessage(
                     $e->getMessage(),
                     'bad '
                 );
             } else {
-                // Add a generic error message to the form
+                // Add a generic error message to the form.
                 $form->sessionMessage(
                     _t('MailChimp.UNKNOWNERROR', 'An unknown error occured'),
                     'bad '
@@ -173,39 +174,39 @@ class MailChimpForm extends \Form
             }
         }
 
-        // Redirect back to the page where the form was submit from
+        // Redirect back to the page where the form was submit from.
         $this->controller->redirectBack();
     }
 
     /**
-     * Sets the value for the useNameField variable
+     * Sets the value for the useNameField variable.
      *
-     * @param bool|false $bool
+     * @param bool $bool
      *
      * @return $this
      */
     public function setUseNameFields($bool = false)
     {
-        // Set the useNameFields variable
-        $this->useNameFields = $bool;
+        // Set the useNameFields variable.
+        $this->useNameFields = (bool) $bool;
 
-        // Get fields
+        // Get fields.
         $fields = $this->Fields();
 
-        // Check $bool
+        // Check $bool.
         if ($bool) {
-            // If it's true, add First Name and Last Name fields
-            // Add text field for the first name
+            // If it's true, add First Name and Last Name fields.
+            // Add text field for the first name.
             $fields->push(
                 TextField::create('FNAME', _t('MailChimp.FNAMELABEL', 'First Name:'))
             );
 
-            // Add text field for the last name
+            // Add text field for the last name.
             $fields->push(
                 TextField::create('LNAME', _t('MailChimp.LNAMELABEL', 'Last Name:'))
             );
 
-            // Set field order
+            // Set field order.
             $fields->changeFieldOrder(
                 array(
                     'FNAME',
@@ -214,12 +215,12 @@ class MailChimpForm extends \Form
                 )
             );
         } else {
-            // If it's false, remove First Name and Last Name fields
+            // If it's false, remove First Name and Last Name fields.
             $fields->removeByName('FNAME');
             $fields->removeByName('LNAME');
         }
 
-        // Set update fields
+        // Set update fields.
         $this->setFields($fields);
 
         // Return $this to enable chaining
@@ -227,7 +228,7 @@ class MailChimpForm extends \Form
     }
 
     /**
-     * Getter for useNameFields
+     * Getter for useNameFields.
      *
      * @return bool
      */
@@ -237,7 +238,7 @@ class MailChimpForm extends \Form
     }
 
     /**
-     * Creates an array of fields to be added into mergeVars for MailChimp
+     * Creates an array of fields to be added into mergeVars for MailChimp.
      *
      * @param $data array of data
      *
@@ -248,14 +249,14 @@ class MailChimpForm extends \Form
         // Get the name of the form
         $name = $this->getName();
         // Create action process name
-        $action =  "action_process".$name;
-        
+        $action = "action_process" . $name;
+
         // Black list
         $blackList = array(
             "url",
             "Email",
             "SecurityID",
-            $action
+            $action,
         );
 
         // Create array of data that is going to be sent to MailChimp
@@ -271,9 +272,9 @@ class MailChimpForm extends \Form
     }
 
     /**
-     * Getter for Double OptIn
+     * Getter for Double OptIn.
      *
-     * @return boolean
+     * @return bool
      */
     public function getDoubleOptin()
     {
@@ -281,9 +282,9 @@ class MailChimpForm extends \Form
     }
 
     /**
-     * Setter for DoubleOptin
+     * Setter for DoubleOptin.
      *
-     * @param boolean $doubleOptin
+     * @param bool $doubleOptin
      */
     public function setDoubleOptin($doubleOptin)
     {
