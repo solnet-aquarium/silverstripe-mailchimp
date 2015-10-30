@@ -1,30 +1,37 @@
 <?php namespace StudioBonito\SilverStripe\MailChimp\Forms;
 
-// Silverstripe
-use \SiteConfig;
 use \EmailField;
-use \TextField;
-use \FormAction;
 use \FieldList;
-
-// ZenValidator
-use \ZenValidator;
-use \Constraint_type;
-
-// Mailchimp
+use \Form;
+use \FormAction;
 use \Mailchimp;
 use \Mailchimp_Error;
+use \RequiredFields;
+use \SiteConfig;
+use \TextField;
 
 /**
- * MailChimpForm.
+ * The form used to collect and process data to add to a MailChimp mailing list.
  *
  * @author       Steve Heyes <steve.heyes@studiobonito.co.uk>
  * @copyright    Studio Bonito Ltd.
  */
 class MailChimpForm extends \Form
 {
-    private $actionName = 'processMailChimpForm';
+
+    /**
+     * Check for if First Name and Last Name fields are included in the form.
+     *
+     * @var bool
+     */
     private $useNameFields = false;
+
+    /**
+     * Variable used to set double optin in for MailChimp.
+     *
+     * @var bool
+     */
+    private $doubleOptin = false;
 
     /**
      * Create a new form, with the given fields and action buttons.
@@ -43,16 +50,22 @@ class MailChimpForm extends \Form
         FieldList $actions = null,
         $validator = null
     ) {
+        // Get default fields
         if (!$fields || !$fields instanceof FieldList) {
             $fields = $this->getDefaultFields();
         }
+
+        // Get default actions
         if (!$actions || !$actions instanceof FieldList) {
             $actions = $this->getDefaultActions();
         }
-        if (!$validator || !$validator instanceof Validator) {
+
+        // Get default Validator
+        if (!$validator || !is_subclass_of($validator, 'Validator')) {
             $validator = $this->getDefaultValidator();
         }
 
+        // Run parent construct
         parent::__construct($controller, $name, $fields, $actions, $validator);
     }
 
@@ -63,23 +76,15 @@ class MailChimpForm extends \Form
      */
     public function getDefaultFields()
     {
+        // Create the field list.
         $fields = FieldList::create();
 
+        // Add email field.
         $fields->push(
-            \EmailField::create('Email', _t('MailChimp.EMAIL', 'Email:'))
+            EmailField::create('Email', _t('MailChimp.EMAILLABEL', 'Email:'))
         );
 
-        if($this->useNameFields)
-        {
-            $fields->push(
-                \TextField::create('FNAME', _t('MailChimp.FNAME', 'First Name:'))
-            );
-
-            $fields->push(
-                \TextField::create('LNAME', _t('MailChimp.LNAME', 'Last Name:'))
-            );
-        }
-
+        // Return the field list.
         return $fields;
     }
 
@@ -90,12 +95,16 @@ class MailChimpForm extends \Form
      */
     public function getDefaultActions()
     {
+        // Create Field list.
         $actions = FieldList::create();
 
-        $action = \FormAction::create($this->actionName, _t('MailChimp.SUBMIT', 'Sign Up'));
+        // Add submit button.
+        $action = FormAction::create('process', _t('MailChimp.SUBMIT', 'Sign Up'));
 
+        // Add button the field list.
         $actions->push($action);
 
+        // Return the field list.
         return $actions;
     }
 
@@ -106,68 +115,178 @@ class MailChimpForm extends \Form
      */
     public function getDefaultValidator()
     {
-        $validator = \ZenValidator::create();
-
-        $validator->addRequiredFields(
-            array(
-                'Email' => _t('MailChimp.EMAILERROR', 'Please enter your email')
-            )
-        );
-
-        $validator->setConstraint('Email', Constraint_type::create('email'));
-
-        return $validator;
+        // Return required field validator for Email.
+        return new RequiredFields(array('Email'));
     }
 
-    public function processMailChimpForm(array $data, \Form $form)
+    /**
+     * Process the form and take the data and attempt to add it the mailing list.
+     *
+     * @param array $data
+     * @param Form  $form
+     */
+    public function process(array $data, Form $form)
     {
-        $siteConfig = \SiteConfig::current_site_config();
-        $mailChimp = new \Mailchimp(
+        // Get current site config.
+        $siteConfig = SiteConfig::current_site_config();
+
+        // Set up MailChimp.
+        $mailChimp = new Mailchimp(
             $siteConfig->MailChimpApiID
         );
 
+        // Try adding the POST'ed data to the address book list.
         try {
-            $merge_vars = [];
-            foreach($data as $key => $value)
-            {
-                if($key != 'Email' AND $key != 'SecurityID' AND $key != 'action_'.$this->actionName)
-                {
-                    $merge_vars[$key] = $value;
-                }
-            }
+            // Strip out merge vars.
+            $mergeVars = $this->createMergeVarArray($data);
 
-            $double_optin = FALSE;
+            // Add the email address and related data to the mailing list.
             $mailChimp->lists->subscribe(
                 $siteConfig->MailListID,
                 array(
-                    'email' => $data['Email']
+                    'email' => $data['Email'],
                 ),
-                $merge_vars,
-                $double_optin
+                $mergeVars,
+                'html',
+                $this->doubleOptin,
+                false,
+                true,
+                true
             );
+
+            // Add a success message.
             $form->sessionMessage(
                 _t('MailChimp.SUCCESSMESSAGE', 'Thank you for subscribing'),
                 'good'
             );
-        } catch (\Mailchimp_Error $e) {
+
+        // Catch any errors that are shown and process them.
+        } catch (Mailchimp_Error $e) {
+            // Check to see if there is a message from the error.
             if ($e->getMessage()) {
+                // Add an error message to the form with the messsage from the caught error.
                 $form->sessionMessage(
                     $e->getMessage(),
                     'bad '
                 );
             } else {
+                // Add a generic error message to the form.
                 $form->sessionMessage(
                     _t('MailChimp.UNKNOWNERROR', 'An unknown error occured'),
                     'bad '
                 );
             }
         }
+
+        // Redirect back to the page where the form was submit from.
         $this->controller->redirectBack();
     }
 
+    /**
+     * Sets the value for the useNameField variable.
+     *
+     * @param bool $bool
+     *
+     * @return $this
+     */
     public function setUseNameFields($bool = false)
     {
-        $this->useNameFields = $bool;
+        // Set the useNameFields variable.
+        $this->useNameFields = (bool) $bool;
+
+        // Get fields.
+        $fields = $this->Fields();
+
+        // Check $bool.
+        if ($bool) {
+            // If it's true, add First Name and Last Name fields.
+            // Add text field for the first name.
+            $fields->push(
+                TextField::create('FNAME', _t('MailChimp.FNAMELABEL', 'First Name:'))
+            );
+
+            // Add text field for the last name.
+            $fields->push(
+                TextField::create('LNAME', _t('MailChimp.LNAMELABEL', 'Last Name:'))
+            );
+
+            // Set field order.
+            $fields->changeFieldOrder(
+                array(
+                    'FNAME',
+                    'LNAME',
+                    'Email',
+                )
+            );
+        } else {
+            // If it's false, remove First Name and Last Name fields.
+            $fields->removeByName('FNAME');
+            $fields->removeByName('LNAME');
+        }
+
+        // Set update fields.
+        $this->setFields($fields);
+
+        // Return $this to enable chaining
         return $this;
+    }
+
+    /**
+     * Getter for useNameFields.
+     *
+     * @return bool
+     */
+    public function getUseNameFields()
+    {
+        return $this->useNameFields;
+    }
+
+    /**
+     * Creates an array of fields to be added into mergeVars for MailChimp.
+     *
+     * @param $data array of data
+     *
+     * @return array
+     */
+    public function createMergeVarArray($data)
+    {
+        // Black list
+        $blackList = array(
+            "url",
+            "Email",
+            "SecurityID",
+            "action_process",
+        );
+
+        // Create array of data that is going to be sent to MailChimp
+        $mergeVars = array();
+        foreach ($data as $key => $value) {
+            // Check is key is in the black list
+            if (!in_array($key, $blackList)) {
+                $mergeVars[$key] = $value;
+            }
+        }
+
+        return $mergeVars;
+    }
+
+    /**
+     * Getter for Double OptIn.
+     *
+     * @return bool
+     */
+    public function getDoubleOptin()
+    {
+        return $this->doubleOptin;
+    }
+
+    /**
+     * Setter for DoubleOptin.
+     *
+     * @param bool $doubleOptin
+     */
+    public function setDoubleOptin($doubleOptin)
+    {
+        $this->doubleOptin = (bool) $doubleOptin;
     }
 }
