@@ -87,7 +87,7 @@ class MailChimpForm extends \Form
 
         // Add email field
         $fields->push(
-            EmailField::create('Email', _t('MailChimp.EMAIL', 'Email:'))
+            EmailField::create('Email', _t('MailChimp.EMAILLABEL', 'Email:'))
         );
 
         // Return the field list
@@ -203,12 +203,12 @@ class MailChimpForm extends \Form
             // If it's true, add First Name and Last Name fields
             // Add text field for the first name
             $fields->push(
-                TextField::create('FNAME', _t('MailChimp.FNAME', 'First Name:'))
+                TextField::create('FNAME', _t('MailChimp.FNAMELABEL', 'First Name:'))
             );
 
             // Add text field for the last name
             $fields->push(
-                TextField::create('LNAME', _t('MailChimp.LNAME', 'Last Name:'))
+                TextField::create('LNAME', _t('MailChimp.LNAMELABEL', 'Last Name:'))
             );
 
             // Set field order

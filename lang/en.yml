@@ -1,0 +1,10 @@
+en:
+  MailChimp:
+    APIID: 'MailChimp API ID'
+    LISTID: 'MailChimp List ID'
+    SUBMIT: 'Sign Up'
+    SUCCESSMESSAGE: 'Thank you for subscribing'
+    UNKNOWNERROR: 'An unknown error occured'
+    FNAMELABEL: 'First Name:'
+    LNAMELABEL: 'Last Name:'
+    EMAILLABEL: 'Email:'
