@@ -99,7 +99,7 @@ class MailChimpForm extends \Form
         $actions = FieldList::create();
 
         // Add submit button.
-        $action = FormAction::create($this->actionName, _t('MailChimp.SUBMIT', 'Sign Up'));
+        $action = FormAction::create('process', _t('MailChimp.SUBMIT', 'Sign Up'));
 
         // Add button the field list.
         $actions->push($action);
