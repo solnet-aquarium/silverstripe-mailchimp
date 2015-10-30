@@ -52,7 +52,7 @@ class MailChimpFormTest extends \PHPUnit_Framework_TestCase
             "LNAME" => "mcTesterson",
             "Email" => "test@studiobonito.co.uk",
             "SecurityID" => "f8b12d9602d470a205ef1b2ca94ac7d7dbd91a68",
-            "action_process".$name => "Sign Up"
+            "action_process" => "Sign Up"
         );
 
         // Expected results
