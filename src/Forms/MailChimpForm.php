@@ -245,12 +245,17 @@ class MailChimpForm extends \Form
      */
     public function createMergeVarArray($data)
     {
+        // Get the name of the form
+        $name = $this->getName();
+        // Create action process name
+        $action =  "action_process".$name;
+        
         // Black list
         $blackList = array(
             "url",
             "Email",
             "SecurityID",
-            "action_processMailChimpForm",
+            $action
         );
 
         // Create array of data that is going to be sent to MailChimp
