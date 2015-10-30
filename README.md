@@ -1,7 +1,11 @@
 # Google Analytics Module
 
-[![Latest Version](https://img.shields.io/github/release/studiobonito/silverstripe-mailchimp.svg?style=flat-square)](https://github.com/studiobonito/silverstripe-mailchimp/releases)
-[![Software License](https://img.shields.io/badge/license-BSD-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]](LICENSE.md)
+[![Build Status][ico-travis]][link-travis]
+[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
+[![Quality Score][ico-code-quality]][link-code-quality]
+[![Total Downloads][ico-downloads]][link-downloads]
 
 ## Overview
 
@@ -39,7 +43,7 @@ To initliase the form, do so as you would usually in a Controller, but use MailC
     }
 ```
 
-Don't forget to add the correct action in the allowed action variable. In our example we would then need to add:
+Don't forget to add the correct action in the allowed action variable. In our example we would need to add:
 
 ``` php
     private static $allowed_actions = [
@@ -72,3 +76,18 @@ If you discover any security related issues, please email support@studiobonito.c
 ## License
 
 The BSD-2-Clause License. Please see [License File](LICENSE.md) for more information.
+
+[ico-version]: https://img.shields.io/github/release/studiobonito/silverstripe-mailchimp.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-BSD-brightgreen.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/studiobonito/silverstripe-mailchimp/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/studiobonito/silverstripe-mailchimp.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/studiobonito/silverstripe-mailchimp.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/studiobonito/silverstripe-mailchimp.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/studiobonito/silverstripe-mailchimp
+[link-travis]: https://travis-ci.org/studiobonito/silverstripe-mailchimp
+[link-scrutinizer]: https://scrutinizer-ci.com/g/studiobonito/silverstripe-mailchimp/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/studiobonito/silverstripe-mailchimp
+[link-downloads]: https://packagist.org/packages/studiobonito/silverstripe-mailchimp
+[link-author]: https://github.com/mrsteveheyes
+[link-contributors]: ../../contributors
