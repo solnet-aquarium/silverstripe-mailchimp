@@ -287,11 +287,6 @@ class MailChimpForm extends \Form
      */
     public function setDoubleOptin($doubleOptin)
     {
-        if ($doubleOptin == true) {
-            $this->doubleOptin = true;
-
-            return;
-        }
-        $this->doubleOptin = false;
+        $this->doubleOptin = (bool) $doubleOptin;
     }
 }
