@@ -38,7 +38,7 @@ All Notable changes to `studiobonito/silverstripe-mailchimp` will be documented 
 - Base MailChimpExtension class
 - Added ZenValidator validator for MailChimpForm
 
-[Unreleased]: https://github.com/studiobonito/silverstripe-google-analytics/compare/0.2.0...HEAD
-[0.2.0]: https://github.com/studiobonito/silverstripe-google-analytics/compare/0.1.1...0.2.0
-[0.1.1]: https://github.com/studiobonito/silverstripe-google-analytics/compare/0.1.0...0.1.1
-[0.1.0]: https://github.com/studiobonito/silverstripe-google-analytics/compare/bce62ad...0.1.0
+[Unreleased]: https://github.com/studiobonito/silverstripe-mailchimp/compare/0.2.0...HEAD
+[0.2.0]: https://github.com/studiobonito/silverstripe-mailchimp/compare/0.1.1...0.2.0
+[0.1.1]: https://github.com/studiobonito/silverstripe-mailchimp/compare/0.1.0...0.1.1
+[0.1.0]: https://github.com/studiobonito/silverstripe-mailchimp/compare/bce62ad...0.1.0
