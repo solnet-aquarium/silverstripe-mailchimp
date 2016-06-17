@@ -1,5 +1,6 @@
 <?php namespace StudioBonito\SilverStripe\MailChimp\Forms;
 
+use \Director;
 use \EmailField;
 use \FieldList;
 use \Form;
@@ -124,6 +125,8 @@ class MailChimpForm extends \Form
      *
      * @param array $data
      * @param Form  $form
+     *
+     * @return mixed
      */
     public function process(array $data, Form $form)
     {
@@ -134,6 +137,7 @@ class MailChimpForm extends \Form
         $mailChimp = new Mailchimp(
             $siteConfig->MailChimpApiID
         );
+        $response = array();
 
         // Try adding the POST'ed data to the address book list.
         try {
@@ -155,31 +159,40 @@ class MailChimpForm extends \Form
             );
 
             // Add a success message.
-            $form->sessionMessage(
-                _t('MailChimp.SUCCESSMESSAGE', 'Thank you for subscribing'),
-                'good'
+            $response = array(
+                'message' => _t('MailChimp.SUCCESSMESSAGE', 'Thank you for subscribing'),
+                'status' => 'good'
             );
 
         // Catch any errors that are shown and process them.
-        } catch (Mailchimp_Error $e) {
-            // Check to see if there is a message from the error.
+        } catch (\Mailchimp_Error $e) {
             if ($e->getMessage()) {
-                // Add an error message to the form with the messsage from the caught error.
-                $form->sessionMessage(
-                    $e->getMessage(),
-                    'bad '
+                $response = array(
+                    'message' => $e->getMessage(),
+                    'status' => 'bad '
                 );
             } else {
-                // Add a generic error message to the form.
-                $form->sessionMessage(
-                    _t('MailChimp.UNKNOWNERROR', 'An unknown error occured'),
-                    'bad '
+                $response = array(
+                    'message' => _t('MailChimp.UNKNOWNERROR', 'An unknown error occured'),
+                    'status' => 'bad'
                 );
             }
         }
 
-        // Redirect back to the page where the form was submit from.
-        $this->controller->redirectBack();
+        // Check if it is an AJAX request
+        if (Director::is_ajax()) {
+            // Return a JSON object
+            return json_encode($response);
+        } else {
+            // Set up a form session message
+            $form->sessionMessage(
+                $response['message'],
+                $response['status']
+            );
+
+            // Redirect back
+            $this->controller->redirectBack();
+        }
     }
 
     /**
