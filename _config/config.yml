@@ -1,6 +1,6 @@
 ---
 Name: mailchimp
 ---
-SiteConfig:
+SilverStripe\SiteConfig\SiteConfig:
   extensions:
     - StudioBonito\SilverStripe\MailChimp\Extensions\MailChimpExtension
