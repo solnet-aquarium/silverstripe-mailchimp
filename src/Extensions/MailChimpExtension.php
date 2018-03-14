@@ -1,7 +1,10 @@
-<?php namespace StudioBonito\SilverStripe\MailChimp\Extensions;
+<?php
 
-use \FieldList;
-use \TextField;
+namespace StudioBonito\SilverStripe\MailChimp\Extensions;
+
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataExtension;
 
 /**
  * The data extension for adding MailChimp settings.
@@ -9,7 +12,7 @@ use \TextField;
  * @author       Steve Heyes <steve.heyes@studiobonito.co.uk>
  * @copyright    Studio Bonito Ltd.
  */
-class MailChimpExtension extends \DataExtension
+class MailChimpExtension extends DataExtension
 {
 
     /**

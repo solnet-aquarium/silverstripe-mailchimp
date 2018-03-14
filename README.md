@@ -13,7 +13,7 @@ Provide MailChimp integration for SilverStripe CMS.
 
 ## Requirements
 
-- SilverStripe 3.1 or newer.
+- SilverStripe 4.
 
 ## Install
 

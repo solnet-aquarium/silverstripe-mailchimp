@@ -1,15 +1,17 @@
-<?php namespace StudioBonito\SilverStripe\MailChimp\Forms;
+<?php
 
-use \Director;
-use \EmailField;
-use \FieldList;
-use \Form;
-use \FormAction;
-use \Mailchimp;
-use \Mailchimp_Error;
-use \RequiredFields;
-use \SiteConfig;
-use \TextField;
+namespace StudioBonito\SilverStripe\MailChimp\Forms;
+
+use SilverStripe\Control\Director;
+use SilverStripe\Forms\EmailField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormAction;
+use Mailchimp;
+use Mailchimp_Error;
+use SilverStripe\Forms\RequiredFields;
+use SilverStripe\SiteConfig\SiteConfig;
+use SilverStripe\Forms\TextField;
 
 /**
  * The form used to collect and process data to add to a MailChimp mailing list.
@@ -17,7 +19,7 @@ use \TextField;
  * @author       Steve Heyes <steve.heyes@studiobonito.co.uk>
  * @copyright    Studio Bonito Ltd.
  */
-class MailChimpForm extends \Form
+class MailChimpForm extends Form
 {
 
     /**
@@ -165,7 +167,7 @@ class MailChimpForm extends \Form
             );
 
         // Catch any errors that are shown and process them.
-        } catch (\Mailchimp_Error $e) {
+        } catch (Mailchimp_Error $e) {
             if ($e->getMessage()) {
                 $response = array(
                     'message' => $e->getMessage(),
