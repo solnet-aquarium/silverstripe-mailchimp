@@ -10,6 +10,7 @@ use SilverStripe\Forms\FormAction;
 use Mailchimp;
 use Mailchimp_Error;
 use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\Validator;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Forms\TextField;
 
@@ -64,7 +65,7 @@ class MailChimpForm extends Form
         }
 
         // Get default Validator
-        if (!$validator || !is_subclass_of($validator, 'Validator')) {
+        if (!$validator || !is_subclass_of($validator, Validator::class)) {
             $validator = $this->getDefaultValidator();
         }
 
